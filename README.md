@@ -1,7 +1,7 @@
 # Weather4Geo
 
 
-This repository packages the IJCV Stage 2 extension associated with the authors' `best` experiment. The NeurIPS implementation, dataset preparation, original prompting pipeline and pretrained-backbone setup are available in [WeatherPrompt](https://github.com/Jahawn-Wen/WeatherPrompt).
+This repository packages the IJCV Stage 2 extension associated with the our' `best` experiment. The NeurIPS implementation, dataset preparation, original prompting pipeline and pretrained-backbone setup are available in [WeatherPrompt](https://github.com/Jahawn-Wen/WeatherPrompt).
 
 ## Contents
 
