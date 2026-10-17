@@ -23,7 +23,7 @@ for helper in autoaugment.py random_erasing.py circle_loss.py; do
         exit 2
     }
 done
-name="${EXPERIMENT_NAME:-best_7585}"
+name="${EXPERIMENT_NAME:-best}"
 source_kind="${MODEL_SOURCE:-archive}"
 epoch="${EPOCH:-209}"
 [[ "$epoch" =~ ^[0-9]{1,3}$ ]] || { echo 'EPOCH must be an integer between 0 and 999.' >&2; exit 2; }

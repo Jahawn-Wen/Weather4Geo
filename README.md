@@ -13,7 +13,7 @@ This repository packages the IJCV Stage 2 extension associated with our archived
 | `evaluate.py` | Explicit checkpoint, direction and weather evaluation |
 | `run_ijcv_1126.sh`, `run_test.sh` | Training and evaluation launchers |
 | `configs/`, `scripts/train_best.sh` | Portable resource configuration and compatibility training entry |
-| `reference/best_7585/` | Sanitized archived options, launch command and result log |
+| `reference/best/` | Sanitized archived options, launch command and result log |
 
 
 ## Dependencies and external assets
@@ -106,7 +106,7 @@ DRY_RUN=1 bash run_ijcv_1126.sh
 bash run_ijcv_1126.sh
 ```
 
-By default, `RUN_DIR` is `runs/75.85` inside this repository; set it in your configuration to choose another location. The launcher materializes Swin/BERT config files in `$RUN_DIR/configs` and writes checkpoints to `$RUN_DIR/model/best_7585`. The script starts at epoch 0, runs 210 epochs (0–209), and sets the Stage 2 switch at epoch 180. It does **not** load a NeurIPS trained checkpoint. Default batch size is 8, seed 3407, Stage 2 ramp 20 epochs, and EMA coefficient 0.995.
+By default, `RUN_DIR` is `runs/75.85` inside this repository; set it in your configuration to choose another location. The launcher materializes Swin/BERT config files in `$RUN_DIR/configs` and writes checkpoints to `$RUN_DIR/model/best`. The script starts at epoch 0, runs 210 epochs (0–209), and sets the Stage 2 switch at epoch 180. It does **not** load a NeurIPS trained checkpoint. Default batch size is 8, seed 3407, Stage 2 ramp 20 epochs, and EMA coefficient 0.995.
 
 
 ## Evaluation

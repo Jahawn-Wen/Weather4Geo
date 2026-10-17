@@ -25,7 +25,7 @@ export IJCV_DIST_URL="${IJCV_DIST_URL:-tcp://127.0.0.1:12346}"
 train_dir="${TRAIN_DIR:-$NEURIPS_ROOT/dataset/University-Release/train}"
 captions="${TRAIN_CAPTIONS:-$ijcv_root/data/multiweather_captions_twosent.json}"
 swin="${SWIN_CHECKPOINT:-$XVLM_ROOT/dataset/swin_base_patch4_window7_224_22k.pth}"
-name="${EXPERIMENT_NAME:-best_7585}"
+name="${EXPERIMENT_NAME:-best}"
 for value in "$ijcv_root" "$NEURIPS_ROOT" "$XVLM_ROOT" "$BERT_MODEL" "$run_root" "$train_dir" "$captions" "$swin"; do
     [[ "$value" == /* ]] || { echo "Use absolute resource paths: $value" >&2; exit 2; }
 done
