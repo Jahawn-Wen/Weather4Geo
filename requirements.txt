@@ -1,0 +1,16 @@
+# IJCV Python dependencies. Install the WeatherPrompt / X-VLM environment first.
+# These are compatibility constraints, NOT a verified reproduction lock file.
+numpy<2
+imgaug==0.4.0
+ruamel.yaml>=0.18,<0.19
+PyYAML
+matplotlib
+Pillow
+scipy
+tensorboard
+tqdm
+einops
+timm
+# torch / torchvision must be installed as a compatible pair for your CUDA runtime.
+# X-VLM's custom BERT code was inspected with transformers==4.12.5.
+# Caption generation requires a separate modern Qwen-compatible environment.

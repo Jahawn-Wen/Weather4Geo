@@ -1,7 +1,7 @@
 # Weather4Geo
 
 
-This repository packages the IJCV Stage 2 extension associated with the our' `best` experiment. The NeurIPS implementation, dataset preparation, original prompting pipeline and pretrained-backbone setup are available in [WeatherPrompt](https://github.com/Jahawn-Wen/WeatherPrompt).
+This repository packages the IJCV Stage 2 extension associated with our archived best experiment. The NeurIPS implementation, dataset preparation, original prompting pipeline and pretrained-backbone setup are available in [WeatherPrompt](https://github.com/Jahawn-Wen/WeatherPrompt).
 
 ## Contents
 
@@ -11,7 +11,8 @@ This repository packages the IJCV Stage 2 extension associated with the our' `be
 | `train_stage2.py` | Archived training recipe, portable paths and correct source backup |
 | `stage2_utils.py` | Checkpoint saving and historical EMA update |
 | `evaluate.py` | Explicit checkpoint, direction and weather evaluation |
-| `configs/`, `scripts/train_best.sh` | Portable resource configuration and 75.85 recipe |
+| `run_ijcv_1126.sh`, `run_test.sh` | Training and evaluation launchers |
+| `configs/`, `scripts/train_best.sh` | Portable resource configuration and compatibility training entry |
 | `reference/best_7585/` | Sanitized archived options, launch command and result log |
 
 
@@ -21,7 +22,7 @@ This repository packages the IJCV Stage 2 extension associated with the our' `be
 2. Follow its instructions to obtain the X-VLM code and pretrained resources. This release imports `models.xvlm.XVLMBase` from that external X-VLM tree and only `autoaugment.py`, `random_erasing.py`, `circle_loss.py` from the NeurIPS checkout. It does **not** import NeurIPS `model.py` or `project_utils.py`.
 3. Provide the Swin checkpoint, BERT tokenizer/model directory, and University-1652 data. Training requires `satellite/`, `street/`, `drone/`, `google/`, each organized by the same class IDs.
 4. Provide the IJCV training caption bank separately, with schema `{ "class_id": { "normal": "...", "fog": "...", ... } }`. Class IDs retain leading zeros. Use the original bank for an experiment comparison; regenerated captions are not guaranteed equivalent.
-5. Use a compatible PyTorch/torchvision and X-VLM environment. 
+5. Use a compatible PyTorch/torchvision and X-VLM environment. Install the WeatherPrompt / X-VLM dependencies first; this repository's `requirements.txt` lists supplementary requirements. The inspected X-VLM code uses Transformers 4.12.5, while optional Qwen caption generation requires a separate modern Qwen-compatible environment.
 
 
 Organize `dataset` folder as follows:
@@ -99,30 +100,38 @@ Run from the IJCV release directory:
 
 ```bash
 cp configs/paths.example.env configs/paths.env
-# Edit every /path/to/... value, then:
-source configs/paths.env
-bash scripts/train_best.sh
+# Edit the absolute resource paths and Python/GPU settings in configs/paths.env.
+# The launchers automatically load this file.
+DRY_RUN=1 bash run_ijcv_1126.sh
+bash run_ijcv_1126.sh
 ```
 
-The launcher materializes Swin/BERT config files in `$RUN_DIR/configs` and writes checkpoints to `$RUN_DIR/model/best_7585`. The script starts at epoch 0, runs 210 epochs (0–209), and sets the Stage 2 switch at epoch 180. It does **not** load a NeurIPS trained checkpoint. Default batch size is 8, seed 3407, Stage 2 ramp 20 epochs, and EMA coefficient 0.995.
+By default, `RUN_DIR` is `runs/75.85` inside this repository; set it in your configuration to choose another location. The launcher materializes Swin/BERT config files in `$RUN_DIR/configs` and writes checkpoints to `$RUN_DIR/model/best_7585`. The script starts at epoch 0, runs 210 epochs (0–209), and sets the Stage 2 switch at epoch 180. It does **not** load a NeurIPS trained checkpoint. Default batch size is 8, seed 3407, Stage 2 ramp 20 epochs, and EMA coefficient 0.995.
 
 
 ## Evaluation
 
-Supply an explicit IJCV checkpoint and its training options. For example, after training:
+Configure `ARCHIVE_DIR` in `configs/paths.env` to contain the IJCV checkpoint files and their `opts.yaml`. Then run:
 
 ```bash
-python evaluate.py \
-  --checkpoint "$RUN_DIR/model/best_7585/net_209.pth" \
-  --opts "$RUN_DIR/model/best_7585/opts.yaml" \
-  --test-dir "$TEST_DIR" \
-  --vision-config "$RUN_DIR/configs/config_swinB_384.json" \
-  --text-config "$RUN_DIR/configs/config_bert.json" \
-  --direction d2s --weather all \
-  --device cuda:0 --output-dir "$RUN_DIR/eval_d2s"
+# Inspect paths and commands without running evaluation.
+DRY_RUN=1 bash run_test.sh
+
+# Evaluate archived net_209.pth: University-1652, ten weather conditions, both directions.
+bash run_test.sh
+
+# Evaluate the checkpoint produced by the training launcher instead.
+MODEL_SOURCE=trained bash run_test.sh
+
+# Optional: select a different epoch, GPU, direction or weather.
+EPOCH=199 DEVICE=cuda:0 DIRECTION=d2s WEATHER=fog bash run_test.sh
 ```
 
-Use `--direction s2d` and a separate output directory for the reverse direction. Test data must contain the corresponding `query_drone/gallery_satellite` or `query_satellite/gallery_drone` directories. SUES-200 can use the same entry point after arranging its split/height into this layout; select that dataset explicitly through `--test-dir`.
+`MODEL_SOURCE=archive` is the default. The selected checkpoint is loaded strictly; no implicit latest-checkpoint lookup is used. `net_209.pth` is the default selection, not a verified attribution of the historical 75.85 result row. Evaluation follows the archived image-only `.eval()` path. This code upload has not rerun the complete training or benchmark.
+
+Test data must contain `query_drone/gallery_satellite` for d2s or `query_satellite/gallery_drone` for s2d. SUES-200 can use the same entry point after arranging its selected split/height into this layout; set `TEST_DIR` accordingly. Results and console logs are saved under `$RUN_DIR/evaluation/`, separated by checkpoint, timestamp and direction.
+
+The local `configs/paths.env`, datasets, captions, checkpoints and run outputs are excluded from Git. Moving this repository to another machine requires configuring its resource paths and compatible environment again.
 
 
 

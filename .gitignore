@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+paths.env
+configs/paths.env
+runs/
+model/
+log/
+data/
+dataset/
+XVLM/
+*.pth
+*.pt
+*.th
+*.safetensors
+*.mat

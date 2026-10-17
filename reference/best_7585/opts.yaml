@@ -1,0 +1,65 @@
+gpu_ids: '1'
+name: 
+  qwen11.24_xvlm_focal_reptile_32B_spade_ft_fgclip2_1201_inv_scale_stage2_3_moreA2
+experiment_name: 
+  qwen11.24_xvlm_focal_reptile_32B_spade_ft_fgclip2_1201_inv_scale_stage2_3_moreA2
+pool: avg
+data_dir: 
+  ${TRAIN_DIR}
+train_all: false
+color_jitter: false
+batchsize: 8
+stride: 1
+pad: 10
+h: 384
+w: 384
+views: 3
+erasing_p: 0
+use_dense: false
+use_NAS: false
+warm_epoch: 0
+lr: 0.005
+moving_avg: 0.995
+droprate: 0.5
+DA: false
+resume: false
+share: true
+extra_Google: true
+LPN: false
+iaa: true
+reptile: true
+qwen: true
+lambda_scene: 0.1
+lambda_weather: 0.03
+lambda_weather_inv: 0.01
+stage2_start_epoch: 180
+stage2_ramp_epochs: 20
+proto_m: 0.05
+cw_easy_gate: false
+cw_easy_cos_th: 0.2
+circle: false
+focal: true
+block: 6
+fp16: false
+seed: 3407
+norm: spade
+multi_weather: true
+adain: a
+conv_norm: none
+style_loss: false
+btnk:
+- 0
+- 1
+- 1
+- 0
+- 0
+- 0
+- 0
+xvlm_config: 
+  ${XVLM_ROOT}/configs/config_swinB_384.json
+xvlm_text_config: 
+  ${XVLM_ROOT}/configs/config_bert.json
+use_swin: false
+use_clip_vit: false
+use_roberta: false
+nclasses: 701
