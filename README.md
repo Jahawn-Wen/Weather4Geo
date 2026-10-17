@@ -1,7 +1,7 @@
 # Weather4Geo
 
 
-This repository packages the IJCV Stage 2 extension associated with our archived best experiment. The NeurIPS implementation, dataset preparation, original prompting pipeline and pretrained-backbone setup are available in [WeatherPrompt](https://github.com/Jahawn-Wen/WeatherPrompt).
+This repository packages the Weather4Geo Stage 2 extension associated with our archived best experiment. The NeurIPS implementation, dataset preparation, original prompting pipeline and pretrained-backbone setup are available in [WeatherPrompt](https://github.com/Jahawn-Wen/WeatherPrompt).
 
 ## Contents
 
@@ -96,7 +96,7 @@ Download [SUES-200](https://github.com/Reza-Zhu/SUES-200-Benchmark).
 
 ## Training
 
-Run from the IJCV release directory:
+Run from the Weather4Geo release directory:
 
 ```bash
 cp configs/paths.example.env configs/paths.env
@@ -131,7 +131,7 @@ EPOCH=199 DEVICE=cuda:0 DIRECTION=d2s WEATHER=fog bash run_test.sh
 
 Test data must contain `query_drone/gallery_satellite` for d2s or `query_satellite/gallery_drone` for s2d. SUES-200 can use the same entry point after arranging its selected split/height into this layout; set `TEST_DIR` accordingly. Results and console logs are saved under `$RUN_DIR/evaluation/`, separated by checkpoint, timestamp and direction.
 
-The local `configs/paths.env`, datasets, captions, checkpoints and run outputs are excluded from Git. Moving this repository to another machine requires configuring its resource paths and compatible environment again.
+
 
 
 
